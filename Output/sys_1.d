@@ -1,0 +1,9 @@
+..\..\output\sys_1.o: ..\..\USER\lwip-1.4.1\src\core\sys.c
+..\..\output\sys_1.o: ..\..\USER\lwip-1.4.1\src\include\lwip/opt.h
+..\..\output\sys_1.o: ..\..\USER\App\lwipopts.h
+..\..\output\sys_1.o: ..\..\USER\lwip-1.4.1\src\include\lwip/debug.h
+..\..\output\sys_1.o: ..\..\USER\lwip-1.4.1\src\include\lwip/arch.h
+..\..\output\sys_1.o: ..\..\USER\lwip-1.4.1\port\arch/cc.h
+..\..\output\sys_1.o: ..\..\USER\lwip-1.4.1\port\arch/cpu.h
+..\..\output\sys_1.o: ..\..\USER\lwip-1.4.1\src\include\lwip/opt.h
+..\..\output\sys_1.o: ..\..\USER\lwip-1.4.1\src\include\lwip/sys.h
