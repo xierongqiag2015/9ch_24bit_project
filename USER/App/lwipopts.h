@@ -57,8 +57,8 @@
 
 /* MEM_SIZE: the size of the heap memory. If the application will send
 a lot of data that needs to be copied, this should be set high. */
-#define MEM_SIZE                (10*1024)
-
+//#define MEM_SIZE                (10*1024)
+#define MEM_SIZE                (50*1024)
 /* MEMP_NUM_PBUF: the number of memp struct pbufs. If the application
    sends a lot of data out of ROM (or other static memory), this
    should be set high. */
@@ -74,7 +74,8 @@ a lot of data that needs to be copied, this should be set high. */
 #define MEMP_NUM_TCP_PCB_LISTEN 6
 /* MEMP_NUM_TCP_SEG: the number of simultaneously queued TCP
    segments. */
-#define MEMP_NUM_TCP_SEG        12
+//#define MEMP_NUM_TCP_SEG        12
+#define MEMP_NUM_TCP_SEG          500
 /* MEMP_NUM_SYS_TIMEOUT: the number of simulateously active
    timeouts. */
 #define MEMP_NUM_SYS_TIMEOUT    10
@@ -82,14 +83,15 @@ a lot of data that needs to be copied, this should be set high. */
 
 /* ---------- Pbuf options ---------- */
 /* PBUF_POOL_SIZE: the number of buffers in the pbuf pool. */
-#define PBUF_POOL_SIZE          10
-
+//#define PBUF_POOL_SIZE          10
+#define PBUF_POOL_SIZE          20
 /* PBUF_POOL_BUFSIZE: the size of each pbuf in the pbuf pool. */
-#define PBUF_POOL_BUFSIZE       500
+//#define PBUF_POOL_BUFSIZE       500
+#define PBUF_POOL_BUFSIZE       1000
 
 
 /* ---------- TCP options ---------- */
-#define LWIP_TCP                1
+#define LWIP_TCP                0
 #define TCP_TTL                 255
 
 /* Controls if TCP should queue segments that arrive out of
@@ -105,7 +107,8 @@ a lot of data that needs to be copied, this should be set high. */
 /*  TCP_SND_QUEUELEN: TCP sender buffer space (pbufs). This must be at least
   as much as (2 * TCP_SND_BUF/TCP_MSS) for things to work. */
 
-#define TCP_SND_QUEUELEN        (2* TCP_SND_BUF/TCP_MSS)
+//#define TCP_SND_QUEUELEN        (2* TCP_SND_BUF/TCP_MSS)
+#define TCP_SND_QUEUELEN          (100 * TCP_SND_BUF)/TCP_MSS
 
 /* TCP receive window. */
 #define TCP_WND                 (2*TCP_MSS)
@@ -210,6 +213,27 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
    ----------------------------------------
 */
 //#define LWIP_DEBUG                      1
+
+#ifndef LWIP_TCP_KEEPALIVE
+#define LWIP_TCP_KEEPALIVE              1
+#endif
+
+/* Keepalive values, compliant with RFC 1122. Don't change this unless you know what you're doing */
+#ifndef  TCP_KEEPIDLE_DEFAULT
+//#define  TCP_KEEPIDLE_DEFAULT     7200000UL /* Default KEEPALIVE timer in milliseconds */
+#define  TCP_KEEPIDLE_DEFAULT     5000UL /* Default KEEPALIVE timer in milliseconds */
+#endif
+
+#ifndef  TCP_KEEPINTVL_DEFAULT
+//#define  TCP_KEEPINTVL_DEFAULT    75000UL   /* Default Time between KEEPALIVE probes in milliseconds */
+#define  TCP_KEEPINTVL_DEFAULT    1000UL
+#endif
+
+#ifndef  TCP_KEEPCNT_DEFAULT
+//#define  TCP_KEEPCNT_DEFAULT      9U        /* Default Counter for KEEPALIVE probes */
+#define  TCP_KEEPCNT_DEFAULT      5U
+#endif
+
 
 #endif /* __LWIPOPTS_H__ */
 

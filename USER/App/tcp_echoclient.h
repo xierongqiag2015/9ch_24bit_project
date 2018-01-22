@@ -35,10 +35,12 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void tcp_echoclient_connect(void);
+int tcp_echoclient_connect(void);
 void tcp_echoclient_disconnect(void);
 int tcp_xmit_ads1256data(struct tcp_pcb *tpcb, long double ReadADSVolutage);
-
+int tcp_xmit_ads1256flag(struct tcp_pcb *tpcb, char dispBuff[20]);
+//int tcp_xmit_ads1256data(struct tcp_pcb *tpcb, /*long double ReadADSVolutage*/ unsigned int ReadADSVolutage);
+void Analysis_Cmd_Data(char *CmdData);
 #endif /* __TCP_ECHOCLIENT_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

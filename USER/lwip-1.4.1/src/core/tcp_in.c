@@ -56,6 +56,7 @@
 #include "lwip/snmp.h"
 #include "arch/perf.h"
 
+#include "Bsp/usart/bsp_debug_usart.h"
 /* These variables are global to all functions involved in the input
    processing of TCP segments. They are set by the tcp_input()
    function. */
@@ -105,7 +106,7 @@ tcp_input(struct pbuf *p, struct netif *inp)
   TCP_STATS_INC(tcp.recv);
   snmp_inc_tcpinsegs();
 
-  iphdr = (struct ip_hdr *)p->payload;
+   iphdr = (struct ip_hdr *)p->payload;
   tcphdr = (struct tcp_hdr *)((u8_t *)p->payload + IPH_HL(iphdr) * 4);
 
 #if TCP_INPUT_DEBUG
@@ -345,7 +346,7 @@ tcp_input(struct pbuf *p, struct netif *inp)
             tcp_abort(pcb);
             goto aborted;
           }
-
+          printf("\r\ntcp_input TCP_EVENT_RECV debug\n");
           /* Notify application that data has been received. */
           TCP_EVENT_RECV(pcb, recv_data, ERR_OK, err);
           if (err == ERR_ABRT) {

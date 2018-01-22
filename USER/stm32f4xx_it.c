@@ -65,9 +65,13 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
+extern void LCD_Display_InitInfo(char info[100]);
 void HardFault_Handler(void)
 {
 	printf("hardfault!!!\n");
+	LCD_Display_InitInfo("hardfaule!!");
+	//__set_FAULTMASK(1);
+	//NVIC_SystemReset();
   /* Go to infinite loop when Hard Fault exception occurs */
   while (1)
   {}

@@ -17,9 +17,6 @@
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\ipv4\lwip/ip.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/raw.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/tcp_impl.h
-..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/tcp.h
-..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/mem.h
-..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\ipv4\lwip/icmp.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\ipv4\lwip/igmp.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/api.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/api_msg.h
@@ -27,6 +24,7 @@
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/sys.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/timers.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/stats.h
+..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/mem.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\netif/etharp.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\ipv4\lwip/ip_frag.h
 ..\..\output\memp.o: ..\..\USER\lwip-1.4.1\src\include\lwip/snmp_structs.h

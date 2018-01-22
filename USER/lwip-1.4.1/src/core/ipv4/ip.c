@@ -57,7 +57,7 @@
 #include "arch/perf.h"
 
 #include <string.h>
-
+#include "Bsp/usart/bsp_debug_usart.h"
 /** Set this to 0 in the rare case of wanting to call an extra function to
  * generate the IP checksum (in contrast to calculating it on-the-fly). */
 #ifndef LWIP_INLINE_IP_CHKSUM
@@ -571,6 +571,7 @@ ip_input(struct pbuf *p, struct netif *inp)
 #if LWIP_TCP
     case IP_PROTO_TCP:
       snmp_inc_ipindelivers();
+		  //printf("\r\nip_input tcp input debug\n");
       tcp_input(p, inp);
       break;
 #endif /* LWIP_TCP */

@@ -129,7 +129,8 @@
  * a lot of data that needs to be copied, this should be set high.
  */
 #ifndef MEM_SIZE
-#define MEM_SIZE                        1600
+//#define MEM_SIZE                        1600
+#define MEM_SIZE                         (22 * 1024)
 #endif
 
 /**
@@ -223,7 +224,8 @@
  * this should be set high.
  */
 #ifndef MEMP_NUM_PBUF
-#define MEMP_NUM_PBUF                   16
+//#define MEMP_NUM_PBUF                   16
+#define MEMP_NUM_PBUF                   24
 #endif
 
 /**
@@ -232,6 +234,7 @@
  */
 #ifndef MEMP_NUM_RAW_PCB
 #define MEMP_NUM_RAW_PCB                4
+//#define MEMP_NUM_RAW_PCB                1
 #endif
 
 /**
@@ -248,7 +251,8 @@
  * (requires the LWIP_TCP option)
  */
 #ifndef MEMP_NUM_TCP_PCB
-#define MEMP_NUM_TCP_PCB                5
+//#define MEMP_NUM_TCP_PCB                5
+#define MEMP_NUM_TCP_PCB                1
 #endif
 
 /**
@@ -954,6 +958,7 @@
  */
 #ifndef TCP_MSS
 #define TCP_MSS                         536
+//#define TCP_MSS                         1024
 #endif
 
 /**
@@ -983,6 +988,7 @@
  */
 #ifndef TCP_SND_QUEUELEN
 #define TCP_SND_QUEUELEN                ((4 * (TCP_SND_BUF) + (TCP_MSS - 1))/(TCP_MSS))
+//#define TCP_SND_QUEUELEN                  (3000 * TCP_SND_BUF)/TCP_MSS
 #endif
 
 /**
@@ -1449,7 +1455,7 @@
  * in seconds. (does not require sockets.c, and will affect tcp.c)
  */
 #ifndef LWIP_TCP_KEEPALIVE
-#define LWIP_TCP_KEEPALIVE              0
+#define LWIP_TCP_KEEPALIVE              1
 #endif
 
 /**

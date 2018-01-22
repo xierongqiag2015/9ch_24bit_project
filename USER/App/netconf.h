@@ -50,20 +50,20 @@
 /* 调试信息输出 */  
 #define SERIAL_DEBUG 
 /* 远端IP地址和端口 */
-	 
+/*
 #define DEST_IP_ADDR0               47
 #define DEST_IP_ADDR1               96
 #define DEST_IP_ADDR2               141
 #define DEST_IP_ADDR3               182
 #define DEST_PORT                   18100
+*/
 
-/*
 #define DEST_IP_ADDR0               192
 #define DEST_IP_ADDR1               168
 #define DEST_IP_ADDR2               0
 #define DEST_IP_ADDR3               101
 #define DEST_PORT                   8100
-*/
+
 /* MAC地址：网卡地址 */
 #define MAC_ADDR0                     2
 #define MAC_ADDR1                     0
@@ -109,7 +109,7 @@
 /* Exported functions ------------------------------------------------------- */
 void LwIP_Init(void);
 void LwIP_Pkt_Handle(void);
-void LwIP_Periodic_Handle(__IO uint32_t localtime);
+void LwIP_Periodic_Handle(__IO uint64_t localtime);
 
 #ifdef __cplusplus
 }

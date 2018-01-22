@@ -45,9 +45,9 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 struct netif gnetif;
-uint32_t TCPTimer = 0;
-uint32_t ARPTimer = 0;
-uint32_t LinkTimer = 0;
+uint64_t TCPTimer = 0;
+uint64_t ARPTimer = 0;
+uint64_t LinkTimer = 0;
 uint32_t IPaddress = 0;
 
 #ifdef USE_DHCP
@@ -155,8 +155,9 @@ void LwIP_Pkt_Handle(void)
 * @param  localtime the current LocalTime value
 * @retval None
 */
-void LwIP_Periodic_Handle(__IO uint32_t localtime)
+void LwIP_Periodic_Handle(__IO uint64_t localtime)
 {
+
 #if LWIP_TCP
   /* TCP periodic process every 250 ms */
   if (localtime - TCPTimer >= TCP_TMR_INTERVAL)
@@ -165,14 +166,12 @@ void LwIP_Periodic_Handle(__IO uint32_t localtime)
     tcp_tmr();
   }
 #endif
-
   /* ARP periodic process every 5s */
   if ((localtime - ARPTimer) >= ARP_TMR_INTERVAL)
   {
     ARPTimer =  localtime;
     etharp_tmr();
   }
-
 	/* Check link status periodically */
 	if ((localtime - LinkTimer) >= LINK_TIMER_INTERVAL) {
 		ETH_CheckLinkStatus(ETHERNET_PHY_ADDRESS);

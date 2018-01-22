@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Include;..\..\USER;..\..\USER\Bsp\ETH;..\..\USER\App;..\..\USER\Bsp;..\..\USER\lwip-1.4.1\port\arch;..\..\USER\lwip-1.4.1\port\Standalone;..\..\USER\lwip-1.4.1\port;..\..\USER\lwip-1.4.1\src\include\ipv4;..\..\USER\lwip-1.4.1\src\include\lwip;..\..\USER\lwip-1.4.1\src\include\netif;..\..\USER\lwip-1.4.1\src\include;..\..\USER\adc;..\..\USER\delay;..\..\USER\FATFS;..\..\USER\FATFS\option;..\..\USER\font;..\..\USER\lcd;..\..\USER\sdio;..\..\USER\sys</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Include;..\..\USER;..\..\USER\Bsp\ETH;..\..\USER\App;..\..\USER\Bsp;..\..\USER\lwip-1.4.1\port\arch;..\..\USER\lwip-1.4.1\port\Standalone;..\..\USER\lwip-1.4.1\port;..\..\USER\lwip-1.4.1\src\include\ipv4;..\..\USER\lwip-1.4.1\src\include\lwip;..\..\USER\lwip-1.4.1\src\include\netif;..\..\USER\lwip-1.4.1\src\include;..\..\USER\adc;..\..\USER\delay;..\..\USER\FATFS;..\..\USER\FATFS\option;..\..\USER\font;..\..\USER\lcd;..\..\USER\sdio;..\..\USER\sys;..\..\USER\RTC;..\..\USER\485</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -870,6 +870,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\USER\sys\sys.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\USER\RTC\bsp_rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>udp_echoclient.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\USER\App\udp_echoclient.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -904,6 +914,11 @@
               <FileName>stm32f4x7_phy.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\USER\Bsp\ETH\stm32f4x7_phy.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_485.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\USER\485\bsp_485.c</FilePath>
             </File>
           </Files>
         </Group>

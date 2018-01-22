@@ -271,6 +271,8 @@ void ADS1256WREG(unsigned char regaddr,unsigned char databyte);
 unsigned char SPI_WriteByte(unsigned char TxData);
 void Init_ADS_GPIO_NO_SPI(void);
 void Get_Ads1256_Data_No_SPI(unsigned char channel);
+void ADS1256_Read_Chip1_3Byte(void);
+void delayad_nopar(void);
 
 #endif /* __LED_H */
 

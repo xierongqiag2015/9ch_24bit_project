@@ -42,6 +42,7 @@
 #include "lwip/ip.h"
 #include "lwip/icmp.h"
 #include "lwip/err.h"
+#include "Bsp/usart/bsp_debug_usart.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -115,6 +116,7 @@ err_t            tcp_process_refused_data(struct tcp_pcb *pcb);
 
 #ifndef TCP_TMR_INTERVAL
 #define TCP_TMR_INTERVAL       250  /* The TCP timer interval in milliseconds. */
+//#define TCP_TMR_INTERVAL       50  /* The TCP timer interval in milliseconds. */
 #endif /* TCP_TMR_INTERVAL */
 
 #ifndef TCP_FAST_INTERVAL
@@ -136,15 +138,18 @@ err_t            tcp_process_refused_data(struct tcp_pcb *pcb);
 
 /* Keepalive values, compliant with RFC 1122. Don't change this unless you know what you're doing */
 #ifndef  TCP_KEEPIDLE_DEFAULT
-#define  TCP_KEEPIDLE_DEFAULT     7200000UL /* Default KEEPALIVE timer in milliseconds */
+//#define  TCP_KEEPIDLE_DEFAULT     7200000UL /* Default KEEPALIVE timer in milliseconds */
+#define  TCP_KEEPIDLE_DEFAULT     5000UL /* Default KEEPALIVE timer in milliseconds */
 #endif
 
 #ifndef  TCP_KEEPINTVL_DEFAULT
-#define  TCP_KEEPINTVL_DEFAULT    75000UL   /* Default Time between KEEPALIVE probes in milliseconds */
+//#define  TCP_KEEPINTVL_DEFAULT    75000UL   /* Default Time between KEEPALIVE probes in milliseconds */
+#define  TCP_KEEPINTVL_DEFAULT    1000UL
 #endif
 
 #ifndef  TCP_KEEPCNT_DEFAULT
-#define  TCP_KEEPCNT_DEFAULT      9U        /* Default Counter for KEEPALIVE probes */
+//#define  TCP_KEEPCNT_DEFAULT      9U        /* Default Counter for KEEPALIVE probes */
+#define  TCP_KEEPCNT_DEFAULT      5U
 #endif
 
 #define  TCP_MAXIDLE              TCP_KEEPCNT_DEFAULT * TCP_KEEPINTVL_DEFAULT  /* Maximum KEEPALIVE probe time */

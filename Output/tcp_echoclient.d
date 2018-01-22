@@ -60,5 +60,3 @@
 ..\..\output\tcp_echoclient.o: ..\..\USER\lwip-1.4.1\src\include\lwip/pbuf.h
 ..\..\output\tcp_echoclient.o: ..\..\USER\App\tcp_echoclient.h
 ..\..\output\tcp_echoclient.o: ..\..\USER\lwip-1.4.1\src\include\lwip/tcp.h
-..\..\output\tcp_echoclient.o: ..\..\USER\lwip-1.4.1\src\include\ipv4\lwip/ip.h
-..\..\output\tcp_echoclient.o: ..\..\USER\lwip-1.4.1\src\include\ipv4\lwip/icmp.h

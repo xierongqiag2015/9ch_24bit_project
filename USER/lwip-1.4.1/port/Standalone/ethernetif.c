@@ -43,6 +43,7 @@
 #include "ethernetif.h"
 #include "stm32f4x7_eth.h"
 #include "netconf.h"
+#include "Bsp/usart/bsp_debug_usart.h"
 #include <string.h>
 
 /* Network interface name */
@@ -326,6 +327,8 @@ err_t ethernetif_input(struct netif *netif)
     LWIP_DEBUGF(NETIF_DEBUG, ("ethernetif_input: IP input error\n"));
     pbuf_free(p);
   }
+	
+	//printf("ethernetif_input p->payload = %s\n",(char *)(p->payload));
   return err;
 }
 

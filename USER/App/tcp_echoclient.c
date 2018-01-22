@@ -80,80 +80,125 @@ static void tcp_echoclient_send(struct tcp_pcb *tpcb, struct echoclient * es);
 static err_t tcp_echoclient_connected(void *arg, struct tcp_pcb *tpcb, err_t err);
 
 extern void LCD_Display_InitInfo(char info[100]);
-extern void LCD_Display_RecvInfo(char info[200], int len);
-extern void Data_Collection_And_Xmit(int data_num);
+extern void LCD_Display_XmitInfo(char info[100]);
+extern void Data_Collection_And_Xmit(void);
 /* Private functions ---------------------------------------------------------*/
+extern int Coll_Duration;
+extern int Start_ADC_Flag;
 
-
-int tcp_xmit_ads1256data(struct tcp_pcb *tpcb, long double ReadADSVolutage)
+void Analysis_Cmd_Data(char *CmdData)
 {
-  struct echoclient *es = NULL;
-  char dispBuff[100];
-  if (tpcb != NULL)   
-  {
-    /* allocate structure es to maintain tcp connection informations */
-    es = (struct echoclient *)mem_malloc(sizeof(struct echoclient));
-    echoclient_es=es;
-    if (es != NULL)
-    {
-      es->state = ES_CONNECTED;
-      es->pcb = tpcb;
-      
-      //sprintf((char*)data, "sending tcp client message %d", message_count);
-      sprintf(dispBuff, "%Lf,", ReadADSVolutage);
-      /* allocate pbuf */
-      es->p_tx = pbuf_alloc(PBUF_TRANSPORT, strlen(dispBuff) , PBUF_POOL);
-         
-      if (es->p_tx)
-      {       
-        /* copy data to pbuf */
-        pbuf_take(es->p_tx, dispBuff, strlen(dispBuff));
-        
-        /* pass newly allocated es structure as argument to tpcb */
-        tcp_arg(tpcb, es);
-  
-        /* initialize LwIP tcp_recv callback function */ 
-        //tcp_recv(tpcb, tcp_echoclient_recv);
-  
-        /* initialize LwIP tcp_sent callback function */
-        //tcp_sent(tpcb, tcp_echoclient_sent);
-  
-        /* initialize LwIP tcp_poll callback function */
-        //tcp_poll(tpcb, tcp_echoclient_poll, 1);
-    
-        /* send data */
-        tcp_echoclient_send(tpcb,es);
-        
-        return ERR_OK;
-      }
-    }
-    else
-    {
-      /* close connection */
-      /* return memory allocation error */
-      return ERR_MEM;  
-    }
-  }
-   
-	return ERR_CONN;
-  
+	  char *Duration;
+	  char *SPS;
+	  char *Start_Time;
+	  char *End_Time;
+	  char *result;
+	  printf("CmdData: %s\n",CmdData);
+	  result = strtok(CmdData,":");
+	  result = strtok(NULL,":");
+	  if(strcmp(result,"Manual") == 0){
+		    Duration = strtok(NULL,":");
+			  Coll_Duration = atoi(Duration)*60;
+			  printf("Duration: %s Coll_Duration: %d\n",Duration,Coll_Duration);
+			  SPS = strtok(NULL,":");
+			  printf("SPS %s, atoi = %d\n",SPS,atoi(SPS));
+			  Start_ADC_Flag = 1;
+				TIM_Cmd(TIM4,ENABLE); 
+				Data_Collection_And_Xmit();
+		}
+		else if(strcmp(result,"Auto") == 0){
+		    Start_Time = strtok(NULL,":");
+			  printf("Start Time %s\n",Start_Time);
+			  End_Time = strtok(NULL,":");
+			  printf("End Time %s\n",End_Time);
+			  SPS = strtok(NULL,":");
+			  printf("SPS %s\n",SPS);
+		}
+		else
+			  printf("Invalid Cmd Data\n");
 }
 
+int tcp_xmit_ads1256data(struct tcp_pcb *tpcb, long double ReadADSVolutage /*unsigned int ReadADSVolutage*/)
+{
+  //struct echoclient *es = NULL;
+  char dispBuff[20];
+	
+	if (tpcb != NULL)
+	{
+	    //es = (struct echoclient *)mem_malloc(sizeof(struct echoclient));
+		  if(echoclient_es != NULL){
+				  echoclient_es->state = ES_CONNECTED;
+          echoclient_es->pcb = tpcb;
+				  sprintf(dispBuff, "%Lf,", ReadADSVolutage);
+				  //printf("tcp_xmit_ads1256data strlen = %d\n",strlen(dispBuff));
+				  echoclient_es->p_tx = pbuf_alloc(PBUF_TRANSPORT, strlen(dispBuff) , PBUF_POOL);
+				  if (echoclient_es->p_tx)
+					{
+					     pbuf_take(echoclient_es->p_tx, dispBuff, strlen(dispBuff));
+						   tcp_arg(tpcb, echoclient_es);
+						   tcp_echoclient_send(tpcb,  echoclient_es);
+						   //mem_free(es);
+						   return ERR_OK;
+					}
+					else
+          {
+      /* close connection */
+      /* return memory allocation error */
+              return ERR_MEM;  
+          }
+	        
+			}
+	}
+	return ERR_CONN;  
+}
+
+int tcp_xmit_ads1256flag(struct tcp_pcb *tpcb, char dispBuff[20])
+{
+  if (tpcb != NULL)
+	{
+	    //es = (struct echoclient *)mem_malloc(sizeof(struct echoclient));
+		  if(echoclient_es != NULL){
+				  echoclient_es->state = ES_CONNECTED;
+          echoclient_es->pcb = tpcb;
+				  //printf("tcp_xmit_ads1256data strlen = %d\n",strlen(dispBuff));
+				  echoclient_es->p_tx = pbuf_alloc(PBUF_TRANSPORT, strlen(dispBuff) , PBUF_POOL);
+				  if (echoclient_es->p_tx)
+					{
+					     pbuf_take(echoclient_es->p_tx, dispBuff, strlen(dispBuff));
+						   tcp_arg(tpcb, echoclient_es);
+						   tcp_echoclient_send(tpcb,  echoclient_es);
+						   //mem_free(es);
+						   return ERR_OK;
+					}
+					else
+          {
+              return ERR_MEM;  
+          }
+	        
+			}
+	}
+	return ERR_CONN;  
+}
 
 /**
 * @brief  Connects to the TCP echo server
 * @param  None
 * @retval None
 */
-void tcp_echoclient_connect(void)
+int tcp_echoclient_connect(void)
 {
   struct ip_addr DestIPaddr;
   err_t ret = ERR_CONN;
   /* create new tcp pcb */
+	echoclient_pcb = NULL;
   echoclient_pcb = tcp_new();
-  
+  tcp_bind(echoclient_pcb,IP_ADDR_ANY,49153);
+	//printf("tcp_echoclient_connect tcp_bind ret = %d\n",ret);
+	
   if (echoclient_pcb != NULL)
   {
+		ip_set_option(echoclient_pcb,SOF_KEEPALIVE);
+		
     IP4_ADDR( &DestIPaddr, DEST_IP_ADDR0, DEST_IP_ADDR1, DEST_IP_ADDR2, DEST_IP_ADDR3 );
     
     /* connect to destination address/port */
@@ -161,7 +206,7 @@ void tcp_echoclient_connect(void)
     if( ret == ERR_OK)
 		{
 		    #ifdef SERIAL_DEBUG
-			  LCD_Display_InitInfo("Mcu Connect Server Success...");
+			  //LCD_Display_InitInfo("Mcu Connect Server Success...");
         printf("\n\r tcp connet ok\n");
         #endif 
 		}
@@ -181,6 +226,8 @@ void tcp_echoclient_connect(void)
 #endif 
   }
 	
+	return ret;
+	
 }
 
 /**
@@ -193,7 +240,7 @@ void tcp_echoclient_disconnect(void)
 	/* close connection */
   tcp_echoclient_connection_close(echoclient_pcb,echoclient_es);
 #ifdef SERIAL_DEBUG
-    printf("\n\r close TCP connection");
+    printf("\n\r close TCP connection\n");
 #endif 
 }
 
@@ -217,7 +264,7 @@ static err_t tcp_echoclient_connected(void *arg, struct tcp_pcb *tpcb, err_t err
       es->state = ES_CONNECTED;
       es->pcb = tpcb;
       
-      sprintf((char*)data, "MCU Connect Server %d", message_count);
+      sprintf((char*)data, "client:MCU0");
         
       /* allocate pbuf */
       es->p_tx = pbuf_alloc(PBUF_TRANSPORT, strlen((char*)data) , PBUF_POOL);
@@ -241,6 +288,8 @@ static err_t tcp_echoclient_connected(void *arg, struct tcp_pcb *tpcb, err_t err
     
         /* send data */
         tcp_echoclient_send(tpcb,es);
+				//tcp_echoclient_send(tpcb,es);
+				//tcp_echoclient_send(tpcb,es);
         
         return ERR_OK;
       }
@@ -269,10 +318,13 @@ static err_t tcp_echoclient_connected(void *arg, struct tcp_pcb *tpcb, err_t err
   * @param err: receive error code 
   * @retval err_t: retuned error  
   */
+
+
 static err_t tcp_echoclient_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 { 
-	char *recdata=0;
-	
+	char *recdata=NULL;
+	char *result = NULL ;
+	char *analysis_data = NULL;
   struct echoclient *es;
   err_t ret_err;
   
@@ -280,7 +332,7 @@ static err_t tcp_echoclient_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
   LWIP_ASSERT("arg != NULL",arg != NULL);
   
   es = (struct echoclient *)arg;
-	
+
   /* if we receive an empty tcp frame from server => close connection */
   if (p == NULL)
   {
@@ -316,15 +368,30 @@ static err_t tcp_echoclient_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
 		
 #ifdef SERIAL_DEBUG
 		recdata=(char *)malloc(p->len*sizeof(char));
+		analysis_data = (char *)malloc(p->len*sizeof(char));
 		if(recdata!=NULL)
 		{
-			memcpy(recdata,p->payload,p->len);
-			printf("\r\nrec<<%s",recdata);
-			//LCD_Display_RecvInfo(recdata,p->len);
-			if(strcmp(recdata,"abc") == 0)
-				Data_Collection_And_Xmit(10);
+			memset(recdata,0,p->len*sizeof(char));
+			memset(analysis_data,0,p->len*sizeof(char));
+			printf("\r\n recdata = %s\n",recdata);
+			strcpy(recdata,p->payload);
+			strcpy(analysis_data,p->payload);
+			printf("\r\np->payload = %s p->len = %d\n",(char *)(p->payload),p->len);
+			printf("\r\n analysis_data = %s\n ",analysis_data);
+			printf("\r\nrec<<%s\n",recdata);
+			//printf("echoclient_pcb->state = %d\n",echoclient_pcb->state);
+			result = strtok(recdata,":");
+			if(result)
+			    printf("\r\ntcp_echoclient_recv result = %s\n",result);
+			if(strcmp(result,"CMD") == 0){
+				//Start_ADC_Flag = 1;
+				//TIM_Cmd(TIM4,ENABLE); 
+				//Data_Collection_And_Xmit(1);
+				Analysis_Cmd_Data(analysis_data);
+			}
 		}
 		free(recdata);
+		free(analysis_data);
 #endif	
 		
 		/* free received pbuf*/
@@ -352,6 +419,7 @@ static err_t tcp_echoclient_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
   *             to be sent
   * @retval None 
   */
+static int xmit_count = 0;
 static void tcp_echoclient_send(struct tcp_pcb *tpcb, struct echoclient * es)
 {
   struct pbuf *ptr;
@@ -367,7 +435,12 @@ static void tcp_echoclient_send(struct tcp_pcb *tpcb, struct echoclient * es)
 
     /* enqueue data for transmission */
     wr_err = tcp_write(tpcb, ptr->payload, ptr->len, 1);
-    
+		tcp_output(tpcb);
+		//xmit_count++;
+		//if(xmit_count == 100){
+			//  xmit_count = 0;
+      //  tcp_output(tpcb);
+		//}
     if (wr_err == ERR_OK)
     { 
       /* continue with next pbuf in chain (if any) */

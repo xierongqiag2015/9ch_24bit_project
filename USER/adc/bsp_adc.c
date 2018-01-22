@@ -13,6 +13,14 @@ unsigned int Ad_Result[3] = {0,0,0};
  ADS1256_Write_Byte(unsigned char d)
 
 *******************************************************************************/
+
+void delayad_nopar(void)
+{
+	unsigned long i = 100;
+   	while(i--);
+}
+
+
 void ADS1256_Write_Chip1_Byte(unsigned char d)
 {
 	
@@ -25,11 +33,17 @@ void ADS1256_Write_Chip1_Byte(unsigned char d)
 		else  
 			ClrADS1256_IN1  ;
     
-		delay_us(50); 	  	  
+		//delay_us(25);
+    delay_us(3); 	
+    //delayad_nopar();		
 		SetADS1256_CLK1;
-	  delay_us(50);
+	  //delay_us(25);
+		delay_us(3);
+    //delayad_nopar();				
 	  ClrADS1256_CLK1 ;
-	  delay_us(50);
+	  //delay_us(25);
+		delay_us(3);
+    //delayad_nopar();				
 	  d <<= 1;
 		
 	}
@@ -45,11 +59,14 @@ void ADS1256_Write_Chip2_Byte(unsigned char d)
 	    SetADS1256_IN2  ;
 		else  
 			ClrADS1256_IN2  ;
-      delay_us(50); 	  	  
+      //delay_us(25); 	  	  
+		  delay_us(3); 
 		  SetADS1256_CLK2;
-	  	delay_us(50);
+	  	//delay_us(25);
+		  delay_us(3); 
 	  	ClrADS1256_CLK2 ;
-	  	delay_us(50);
+	  	//delay_us(25);
+		  delay_us(3); 
 	  	d <<= 1;
 	}
 }
@@ -64,11 +81,14 @@ void ADS1256_Write_Chip3_Byte(unsigned char d)
 	    SetADS1256_IN3  ;
 		else  
 			ClrADS1256_IN3  ;
-      delay_us(50); 	  	  
+      //delay_us(25); 
+      delay_us(3); 		
 		  SetADS1256_CLK3;
-	  	delay_us(50);
+	  	//delay_us(25);
+		  delay_us(3); 
 	  	ClrADS1256_CLK3 ;
-	  	delay_us(50);
+	  	//delay_us(25);
+		  delay_us(3); 
 	  	d <<= 1;
 	}
 }
@@ -86,19 +106,22 @@ char ADS1256_Read_Chip1_Byte(void)
   {
       	d <<=1;	
 	  	  SetADS1256_CLK1;  
-      	delay_us(50);
+      	//delay_us(25);
+		    delay_us(3); 	
       	ClrADS1256_CLK1;   
-		    delay_us(50);
+		    //delay_us(25);
+		    delay_us(3); 	
 		    SetADS1256_DO1;
 	  	 if(ADS1256_DO1)
  	    	d |= 0x01;
 	  	 else 
  	    	d &= 0xfe;     	   	  	  
 	} 
-  delay_us(10);		
+  delay_us(3);		
   return d;
 
 }
+
 
 char ADS1256_Read_Chip2_Byte(void)
 {  
@@ -108,16 +131,18 @@ char ADS1256_Read_Chip2_Byte(void)
   {
       	d <<=1;	
 	  	  SetADS1256_CLK2;  
-      	delay_us(50);
+      	//delay_us(25);
+		    delay_us(3); 	
       	ClrADS1256_CLK2;   
-		    delay_us(50);
+		    //delay_us(25);
+		    delay_us(3); 	
 		    SetADS1256_DO2;
 	  	 if(ADS1256_DO2)
  	    	d |= 0x01;
 	  	 else 
  	    	d &= 0xfe;     	   	  	  
 	} 
-  delay_us(10);		
+  delay_us(3);		
   return d;
 
 }
@@ -130,16 +155,18 @@ char ADS1256_Read_Chip3_Byte(void)
   {
       	d <<=1;	
 	  	  SetADS1256_CLK3;  
-      	delay_us(50);
+      	//delay_us(25);
+		    delay_us(3); 	
       	ClrADS1256_CLK3;   
-		    delay_us(50);
+		    //delay_us(25);
+		    delay_us(3); 	
 		    SetADS1256_DO3;
 	  	 if(ADS1256_DO3)
  	    	d |= 0x01;
 	  	 else 
  	    	d &= 0xfe;     	   	  	  
 	} 
-  delay_us(10);		
+  delay_us(3);		
   return d;
 
 }
@@ -213,9 +240,7 @@ void ADS1256_Read_dat(void)
 	//ADS1256_Write_Byte(0xff);
 	
   Ad_Result[0] |= (ADS1256_Read_Chip1_Byte() << 16);
-	//ADS1256_Write_Byte(0xff);
   Ad_Result[0] |= (ADS1256_Read_Chip1_Byte() << 8);
-	//ADS1256_Write_Byte(0xff);
   Ad_Result[0] |= ADS1256_Read_Chip1_Byte();
 	
 	Ad_Result[1] |= (ADS1256_Read_Chip2_Byte() << 16);

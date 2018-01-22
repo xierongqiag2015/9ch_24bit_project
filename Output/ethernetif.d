@@ -54,4 +54,6 @@
 ..\..\output\ethernetif.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 ..\..\output\ethernetif.o: ..\..\USER\Bsp/systick/bsp_SysTick.h
 ..\..\output\ethernetif.o: ..\..\USER\App\netconf.h
+..\..\output\ethernetif.o: ..\..\USER\Bsp/usart/bsp_debug_usart.h
+..\..\output\ethernetif.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\ethernetif.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

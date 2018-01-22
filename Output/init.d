@@ -22,8 +22,6 @@
 ..\..\output\init.o: ..\..\USER\lwip-1.4.1\src\include\lwip/raw.h
 ..\..\output\init.o: ..\..\USER\lwip-1.4.1\src\include\lwip/udp.h
 ..\..\output\init.o: ..\..\USER\lwip-1.4.1\src\include\lwip/tcp_impl.h
-..\..\output\init.o: ..\..\USER\lwip-1.4.1\src\include\lwip/tcp.h
-..\..\output\init.o: ..\..\USER\lwip-1.4.1\src\include\ipv4\lwip/icmp.h
 ..\..\output\init.o: ..\..\USER\lwip-1.4.1\src\include\lwip/snmp_msg.h
 ..\..\output\init.o: ..\..\USER\lwip-1.4.1\src\include\lwip/snmp.h
 ..\..\output\init.o: ..\..\USER\lwip-1.4.1\src\include\lwip/snmp_structs.h

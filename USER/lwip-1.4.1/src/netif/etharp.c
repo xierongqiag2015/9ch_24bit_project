@@ -61,7 +61,7 @@
 #endif /* PPPOE_SUPPORT */
 
 #include <string.h>
-
+#include "Bsp/usart/bsp_debug_usart.h"
 const struct eth_addr ethbroadcast = {{0xff,0xff,0xff,0xff,0xff,0xff}};
 const struct eth_addr ethzero = {{0,0,0,0,0,0}};
 
@@ -1360,6 +1360,7 @@ ethernet_input(struct pbuf *p, struct netif *netif)
         goto free_and_return;
       } else {
         /* pass to IP layer */
+				//printf("\r\nethernet_input paa to IP layer\n");
         ip_input(p, netif);
       }
       break;
