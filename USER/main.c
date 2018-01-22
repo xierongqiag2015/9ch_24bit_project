@@ -590,7 +590,7 @@ void mcu_xmit_ads1256data()
 	sprintf(xmit_info, "Data Failed:%d", xmit_fail_count);
 	LCD_Display_InitInfo(xmit_info);
 	//tcp_echoclient_disconnect();
-	udp_echoclient_disconnect();
+	//udp_echoclient_disconnect();
 	Connect_Server_Flag = 0;
 	KEEPCONNECTTime = LocalTime;
 	xmit_succ_count = xmit_fail_count = 0;

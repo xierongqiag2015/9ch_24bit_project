@@ -157,7 +157,7 @@ int udp_xmit_flag(struct udp_pcb *upcb, char dispBuff[20] /*unsigned int ReadADS
     {
       /* Set a receive callback for the upcb */
       udp_recv(upcb, udp_receive_callback, NULL);
-      
+      printf("\r\n udp_echoclient_connect client:MCU\n");
       sprintf((char*)data_udp, "client:MCU%d\n",message_count_udp);
   
       /* allocate pbuf from pool*/
